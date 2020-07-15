@@ -18,7 +18,7 @@ exports.create = async (req, res) => {
   }
 };
 
-exports.drop = async (params) => {
+exports.drop = async (req, res) => {
   const { requestId } = req; // global for try - catch scope
   try {
     const { databaseName } = req.body;

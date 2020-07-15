@@ -11,7 +11,6 @@ exports.create = async (params) => {
     }
   } catch (error) {
     console.log(`create database model throw error: ${error}`);
-    await knexDbManager.raw(`DROP DATABASE ${databaseName}`);
     return { hasError: true, error: `create database model throw error: ${error}`};
   }
 };
