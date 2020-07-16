@@ -44,10 +44,10 @@ exports.list = async () => {
   try {
     const allDB = await knexDbManager.select("pg_database.datname").from("pg_database");
     const noneSystemDB =  allDB.filter((database) => { return !process.env.DEFAULT_SCHEMA_DB.split(",").includes(database["datname"]) });
-    let databases = noneSystemDB.map(item => { return item.datname }).join(',').split(',')
+    const databases = noneSystemDB.map(item => { return item.datname }).join(',').split(',')
 
     return {
-      count: noneSystemDB.length,
+      count: databases.length,
       databases
     }
   } catch (error) {
