@@ -35,3 +35,21 @@ exports.drop = async (req, res) => {
     res.status(500).json({ meta: { requestId }, data: [], errors: error });
   }
 };
+
+exports.list = async (req, res) => {
+  const { requestId } = req; // global for try - catch scope
+  try {
+    const result = await DataBase.list();
+
+    if (Object.keys(result).includes("hasError") && result.hasError) {
+      res
+        .status(404)
+        .json({ meta: { requestId }, data: [], errors: result.error });
+    } else {
+      res.status(200).json({ meta: { requestId }, data: result, errors: [] });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ meta: { requestId }, data: [], errors: error });
+  }
+}
