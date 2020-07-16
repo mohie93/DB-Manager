@@ -42,8 +42,14 @@ exports.drop = async (params) => {
 
 exports.list = async () => {
   try {
-    const databases = await knexDbManager.select("pg_database.datname").from("pg_database");
-    return databases.filter((database) => { return !process.env.DEFAULT_SCHEMA_DB.split(",").includes(database["datname"]) })
+    const allDB = await knexDbManager.select("pg_database.datname").from("pg_database");
+    const noneSystemDB =  allDB.filter((database) => { return !process.env.DEFAULT_SCHEMA_DB.split(",").includes(database["datname"]) });
+    let databases = noneSystemDB.map(item => { return item.datname }).join(',').split(',')
+
+    return {
+      count: noneSystemDB.length,
+      databases
+    }
   } catch (error) {
     console.log(`list databases model throw error: ${error}`);
     return {
