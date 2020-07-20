@@ -18,6 +18,12 @@ app.use(
   require("./src/routes/database_route") // controller file
 );
 
+app.use(
+  "/api/v1", // base route
+  require("./src/middlewares/requestIdGenerator").call, // req middleware
+  require("./src/routes/healthcheck_route") // controller file
+);
+
 // run app on port 3000
 app.listen(port, () => {
   console.log(`app started on port: ${port}`);
